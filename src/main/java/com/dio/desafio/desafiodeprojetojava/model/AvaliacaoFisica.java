@@ -1,12 +1,13 @@
 package com.dio.desafio.desafiodeprojetojava.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
+@Data
 @Entity
 public class AvaliacaoFisica {
     @Id
@@ -14,6 +15,7 @@ public class AvaliacaoFisica {
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "aluno_id")
+    @JsonIgnore
     private Aluno alunos;
     private LocalDateTime dataDeAvaliacao = LocalDateTime.now();
     private double peso;

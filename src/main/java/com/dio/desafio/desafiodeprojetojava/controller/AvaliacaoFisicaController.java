@@ -32,7 +32,7 @@ public class AvaliacaoFisicaController {
     @PostMapping
     public void createAvaliacao(@RequestBody AvaliacaoFisica form) {
         AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica();
-        Aluno aluno = alunoRespository.findById(form.getIdAluno()).get();
+        Aluno aluno = alunoRespository.findById(form.getId()).get();
         avaliacaoFisica.setPeso(form.getPeso());
         avaliacaoFisica.setAltura(form.getAltura());
         avaliacaoFisica.setAlunos(aluno);
@@ -42,5 +42,14 @@ public class AvaliacaoFisicaController {
     @DeleteMapping( "/{id}")
     public void deleteAvaliacao(@PathVariable Long id) {
         repository.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public AvaliacaoFisica alterarAF(@RequestBody AvaliacaoFisica form, @PathVariable Long id) {
+        AvaliacaoFisica newAF = repository.findById(id).get();
+        newAF.setDataDeAvaliacao(form.getDataDeAvaliacao());
+        newAF.setPeso(form.getPeso());
+        newAF.setAltura(form.getAltura());
+        return repository.save(newAF);
     }
 }
