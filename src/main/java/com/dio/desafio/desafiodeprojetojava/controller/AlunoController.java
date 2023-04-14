@@ -3,8 +3,10 @@ package com.dio.desafio.desafiodeprojetojava.controller;
 import com.dio.desafio.desafiodeprojetojava.model.Aluno;
 import com.dio.desafio.desafiodeprojetojava.model.AvaliacaoFisica;
 import com.dio.desafio.desafiodeprojetojava.repository.AlunoRespository;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -22,7 +24,7 @@ public class AlunoController {
     }
 
     @PostMapping
-    public Aluno create(@RequestBody Aluno form) {
+    public Aluno create(@Valid @RequestBody Aluno form) {
         Aluno aluno = new Aluno();
         aluno.setNome(form.getNome());
         aluno.setCpf(form.getCpf());
@@ -33,7 +35,7 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public Aluno alterarAluno(@RequestBody Aluno form, @PathVariable Long id) {
+    public Aluno alterarAluno(@Valid @RequestBody Aluno form, @PathVariable Long id) {
         Aluno newAluno = repository.findById(id).get();
         newAluno.setBairro(form.getBairro());
         newAluno.setCpf(form.getCpf());
@@ -47,6 +49,11 @@ public class AlunoController {
         Aluno newAluno = repository.findById(id).get();
         List<AvaliacaoFisica> allAF = newAluno.getAvaliacoes();
         return allAF;
+    }
+
+    @GetMapping
+    public List<Aluno> getDataDeNascimento(@RequestParam(value = "dataDeNascimento")LocalDate dataDeNascimento){
+        return repository.findByDataDeNascimento(dataDeNascimento);
     }
 
 }
